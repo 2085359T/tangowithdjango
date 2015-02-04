@@ -1,31 +1,23 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Rango</title>
-    </head>
+{% extends 'base.html' %}
 
-    <body>
-        <h1>Add a Page</h1>
-		{% if user.is_authenticated %}
+{% block body_block %}
 
-        <form id="page_form" method="post" action="/rango/category/{{category.slug}}/add_page/">
-
-            {% csrf_token %}
-            {% for hidden in form.hidden_fields %}
-                {{ hidden }}
-            {% endfor %}
-
-            {% for field in form.visible_fields %}
-                {{ field.errors }}
-                {{ field.help_text }}
-                {{ field }}
-            {% endfor %}
-            <input type="submit" name="submit" value="Create Category" />
-	    {% else %}
+    <h1>Add a Page</h1>
+    {% if user.is_authenticated %}
+    <form id="page_form" method="post" action="{% url 'add_page' category.slug %}">
+    {% csrf_token %}
+    {% for hidden in form.hidden_fields %}
+        {{ hidden }}
+    {% endfor %}
+    {% for field in form.visible_fields %}
+        {{ field.errors }}
+        {{ field.help_text }}
+        {{ field }}
+    {% endfor %}
+        <input type="submit" name="submit" value="Create Category" />
+	{% else %}
 		You must log in to add pages.
-		{% endif %}
-	
-        </form>
-    </body>
+    {% endif %}
+	</form>
 
-</html>
+{% endblock %}

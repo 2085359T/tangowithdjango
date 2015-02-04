@@ -1,18 +1,5 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
 
-{% load staticfiles %} <!-- New line -->
-
-<html>
-
-    <head>
-        <title>About</title>
-    </head>
-
-    <body>
-        <h1>Rango says... this is the about page</h1>
-        <strong>This page was put together by Anton Todorov, 2085359T</strong><br />
-        <a href="/rango/">Index</a><br />
-        <img src="{% static "images/me.jpg" %}" alt="Picture of me." style="width:300px;height:280px" /> <!-- New line -->
-    </body>
-
-</html>
+{% block body_block %}
+    <h1>Rango says... this is the about page</h1>
+{% endblock %}
