@@ -8,34 +8,34 @@ from rango.models import Category, Page
 
 
 def populate():
-    student_cat = add_cat('2085359T')
+    student_cat = add_cat("2085359t")
     
     add_page(cat=student_cat,
         title="My GitHub",
-        url="https://github.com/2085359T/"
-        views = 5)
+        url="https://github.com/2085359T/",
+        views = 0)
     
     add_page(cat=student_cat,
         title="My PythonAnywhere",
-        url="https://www.pythonanywhere.com/user/2085359T/consoles/"
-        views = 29)
+        url="https://www.pythonanywhere.com/user/2085359T/consoles/",
+        views = 0)
 
     
     python_cat = add_cat('Python',128, 64)
 
     add_page(cat=python_cat,
         title="Official Python Tutorial",
-        url="http://docs.python.org/2/tutorial/"
+        url="http://docs.python.org/2/tutorial/",
         views = 23)
 
     add_page(cat=python_cat,
         title="How to Think like a Computer Scientist",
-        url="http://www.greenteapress.com/thinkpython/"
+        url="http://www.greenteapress.com/thinkpython/",
         views = 33)
 
     add_page(cat=python_cat,
         title="Learn Python in 10 Minutes",
-        url="http://www.korokithakis.net/tutorials/python/"
+        url="http://www.korokithakis.net/tutorials/python/",
         views = 1)
 
     django_cat = add_cat("Django", 64, 32)
