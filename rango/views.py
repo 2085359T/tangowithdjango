@@ -105,6 +105,7 @@ def search(request):
 
     return render(request, 'rango/search.html', {'result_list': result_list})
 
+@login_required
 def add_category(request):
     # A HTTP POST?
     if request.method == 'POST':
@@ -129,24 +130,7 @@ def add_category(request):
     # Render the form with error messages (if any).
     return render(request, 'rango/add_category.html', {'form': form})
 
-
-def register_profile(request):
-    if request.method == 'POST':
-        profile_form = UserProfileForm(data=request.POST)
-        if profile_form.is_valid():
-            profile = profile_form.save(commit=False)
-            profile.user = get_user_model()
-            if 'picture' in request.FILES:
-                profile.picture = request.FILES['picture']
-            profile.save()
-            return redirect('index')
-    else:
-        profile_form = UserProfileForm()
-    return render(request, 'registration/profile_registration.html', {'profile_form': profile_form})
-
-def profile(request):
-    return render(request, 'registration/profile.html', {'profile_form': profile_form})
-
+@login_required
 def add_page(request, category_name_slug):
 
     try:
@@ -314,35 +298,48 @@ def profile(request):
     return render(request, 'rango/profile.html', context_dict)
 
 
-def edit_profile(request):
-    if request.method == 'POST':
-
-        users_profile = UserProfile.objects.get(user=request.user)
-        profile_form = UserProfileForm(request.POST, instance=users_profile)
-        if profile_form.is_valid():
-            profile_to_edit = profile_form.save(commit=False)
-            try:
-                profile_to_edit.picture = request.FILES['picture']
-            except:
-                pass
-            profile_to_edit.save()
-            return profile(request)
-    else:
-        form = UserProfileForm(request.GET)
-        return render(request, 'rango/edit_profile.html', {'profile_form': form})
-
-
 def users(request):
     context_dict = {}
-    profiles = UserProfile.objects.all()
-    context_dict['profiles'] = profiles
+    users = User.objects.order_by('username')
+    context_dict['users'] = users
     return render(request, 'rango/users.html', context_dict)
 
-
-def view_profile(request, profile_name):
+@login_required
+def register_profile(request):
     context_dict = {}
-    user = User.objects.get(username=profile_name)
-    context_dict['user'] = user
-    profile = UserProfile.objects.get(user=user)
-    context_dict['profile'] = profile
-    return render(request, 'rango/view_profile.html', context_dict)
+    registered = False
+    if request.method == 'POST':
+        try:
+            profile = UserProfile.objects.get(user=request.user)
+            profile_form = UserProfileForm(request.POST, instance=profile)
+        except:
+            profile_form = UserProfileForm(request.POST)
+        if profile_form.is_valid():
+            profile = profile_form.save(commit=False)
+            profile.user = request.user
+            if 'picture' in request.FILES:
+                profile.picture = request.FILES['picture']  
+            profile.save()
+            registered = True
+        else:
+            print profile_form.errors
+    else:
+        profile_form = UserProfileForm() 
+    context_dict['profile_form'] = profile_form
+    context_dict['registered'] = registered
+    
+    return render(request, 'registration/profile_registration.html', context_dict)
+
+def profile(request, user_name):
+    context_dict = {}
+    try:  
+        user = User.objects.get(username=user_name)
+        context_dict['username'] = user
+    except:
+        pass
+    try:
+        profile = UserProfile.objects.get(user=user)
+        context_dict['profile'] = profile
+    except:
+        pass
+    return render(request, 'rango/profile.html', context_dict)

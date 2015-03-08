@@ -1,25 +1,28 @@
-{% extends 'base.html' %}
-
-{% load staticfiles %}
-
-{% block title %}View Profile{% endblock %}
-
+{% extends "base.html" %}
 {% block body_block %}
-
-	<div class="col-xs-50 col-sm-8 placeholder">
-		<div class="panel panel-primary">
-			<div class="panel-heading">
-				<h3 class="panel-title"><h1>{{ user.username }}</h1></h3>
-			</div>
-		</div>
-
-		<ul class="list-group">
-			<li class="list-group-item"><h3>Email:</h3>{{user.email}}</li> 
-			
-			<li class="list-group-item"><h3>Website:</h3> {{profile.website}}</li> 
-			
-			<li class="list-group-item"><h3>Picture:</h3> <img  width="280" height="200" src="{{profile.picture.url}}" alt="Profile Picture" /></li> 
-		</ul>		
-	</div>
-	
+{% if username %}
+    {% if profile %}
+        <div class="page-header">
+        <h1>{{username.username}}'s profile</h1>
+        </div>
+        {% if profile.picture %}
+            <img alt = "User's photo" src = "{{profile.picture.url}}" height="270" width ="480"/>
+        {% endif %}
+        <p>
+        {% if profile.website %}
+            <strong> Website: <a href="<{{profile.website}}">{{profile.website}}</a> <strong/>
+        {% endif %}
+        <br>
+        <strong> E-mail: {{username.email}} <strong/>
+        </p>
+        {% else %}
+            <strong> {{username.username}} doesn't have a profile yet. <strong/>
+        {% endif %}
+        {% if user.username == username.username %}
+            <form action="/rango/add_profile" method="get">
+            <input type="submit" value="Edit" 
+            name="Submit" id="frm1_submit" />
+            </form>
+        {% endif %}
+        {% endif %}
 {% endblock %}

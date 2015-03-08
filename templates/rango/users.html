@@ -5,13 +5,13 @@
 {% block title %}Users{% endblock %}
 
 {% block body_block %}
-{% if profiles %}
+
 <ul>
-    {% for Profile in profiles %}
+    {% for user in users %}
     <li>
-        <a href="{% url 'view_profile' Profile.user %}">{{Profile.user}}</a>
+          <a href="{% url 'profile' user.username %}"> {{user}}</a>
     </li>
     {% endfor %}
 </ul>
-{% endif %}
+
 {% endblock %}
