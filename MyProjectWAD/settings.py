@@ -26,7 +26,7 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['2085359T.pythonanywhere.com']
 
 LOGIN_URL = '/accounts/login/'
 
