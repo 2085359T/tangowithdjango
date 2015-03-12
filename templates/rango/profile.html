@@ -6,7 +6,7 @@
         <h1>{{username.username}}'s profile</h1>
         </div>
         {% if profile.picture %}
-            <img alt = "User's photo" src = "{{profile.picture.url}}" height="270" width ="480"/>
+            <img alt = "Photo: " src = "{{profile.picture.url}}" height="200" width ="300"/>
         {% endif %}
         <p>
         {% if profile.website %}
